@@ -3,9 +3,8 @@ const Product = require("../models/product");
 
 // Get all products
 const getProducts = async (category) => {
-  const filter = category ? { category } : {};
-  const products = await Product.find(filter);
-  return products;
+  const filter = category == "All" ? {} : { category };
+  return await Product.find(filter);
 };
 
 // Get id specific product

@@ -2,12 +2,17 @@
 const express = require("express");
 // Import mongoose
 const mongoose = require("mongoose");
+// Import cors
+const cors = require("cors");
 
 // Create the express app
 const app = express();
 
 // Middleware to handle JSON request
 app.use(express.json());
+
+// Setup cors policy
+app.use(cors());
 
 // Connect to MongoDB
 mongoose
