@@ -2,9 +2,13 @@
 const Product = require("../models/product");
 
 // Get all products
-const getProducts = async (category) => {
-  const filter = category == "All" ? {} : { category };
-  return await Product.find(filter);
+const getProducts = async (category, page = 1, per_page = 6) => {
+  const filter =
+    category == "All" || category == null || category == "" ? {} : { category };
+  return await Product.find(filter)
+    .limit(per_page)
+    .skip((page - 1) * per_page)
+    .sort({ _id: -1 }); // Sort by newly added products
 };
 
 // Get id specific product

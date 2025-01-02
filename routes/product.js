@@ -32,15 +32,17 @@ router.get("/", async (req, res) => {
   try {
     // Retrieve the data from req.body
     const category = req.query.category;
+    const page = req.query.page;
+    const per_page = req.query.per_page;
     // Use getProducts from the controller to load the product data
-    const products = await getProducts(category);
+    const products = await getProducts(category, page, per_page);
     // If there are issues with the category query
-    if (products.length === 0) {
-      /* product.length because it is returning either an array filled with elements or an empty array */
-      return res.status(404).send({
-        error: `No products found for the category "${category}".`,
-      });
-    }
+    // if (products.length === 0) {
+    //   /* product.length because it is returning either an array filled with elements or an empty array */
+    //   return res.status(404).send({
+    //     error: `No products found for the category "${category}".`,
+    //   });
+    // }
     // Send the products if found
     res.status(200).send(products);
   } catch (error) {

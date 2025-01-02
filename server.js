@@ -1,3 +1,4 @@
+require("dotenv").config();
 // Import express
 const express = require("express");
 // Import mongoose
@@ -34,11 +35,17 @@ app.get("/", (req, res) => {
 });
 
 // Get the other routes
-const ProductRouter = require("./routes/product");
-const CategoryRouter = require("./routes/category");
+const productRouter = require("./routes/product");
+const categoryRouter = require("./routes/category");
+const orderRouter = require("./routes/order");
+const paymentRouter = require("./routes/payment");
+const authRouter = require("./routes/user");
 // Apply the routes
-app.use("/products", ProductRouter);
-app.use("/categories", CategoryRouter);
+app.use("/products", productRouter);
+app.use("/categories", categoryRouter);
+app.use("/orders", orderRouter);
+app.use("/payment", paymentRouter);
+app.use("/auth", authRouter);
 
 // Start the server (Always the last line of code in server.js)
 app.listen(5555, () => {
