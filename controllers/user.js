@@ -19,6 +19,11 @@ function generateJWTtoken(_id, name, email, role) {
   );
 }
 
+// get user by email
+async function getUserByEmail(email) {
+  return await User.findOne({ email });
+}
+
 const login = async (email, password) => {
   // check if email is exists in our system
   const user = await User.findOne({
@@ -89,6 +94,7 @@ const signup = async (name, email, password) => {
 module.exports = {
   login,
   signup,
+  getUserByEmail,
 };
 
 // throw can only be used if try {} catch {} was used in the parent side (or where this specific login function is called)

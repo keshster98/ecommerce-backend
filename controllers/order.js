@@ -3,9 +3,13 @@ const axios = require("axios");
 const Order = require("../models/order");
 
 // get all the orders
-const getOrders = async () => {
-  const orders = await Order.find();
-  return orders;
+const getOrders = async (email, role) => {
+  let filter = {};
+  // if is not admin, filter by customerEmail
+  if (role !== "admin") {
+    filter.customerEmail = email;
+  }
+  return await Order.find(filter).sort({ _id: -1 });
 };
 
 // get one order

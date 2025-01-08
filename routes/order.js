@@ -1,6 +1,7 @@
 const express = require("express");
 // set up the order router
 const router = express.Router();
+const { isValidUser, isAdmin } = require("../middleware/auth");
 // import all the order functions
 const {
   getOrders,
@@ -18,7 +19,7 @@ const {
 */
 
 // addNewOrder
-router.post("/", async (req, res) => {
+router.post("/", isValidUser, async (req, res) => {
   try {
     // const customerName = req.body.customerName;
     // const customerEmail = req.body.customerEmail;
@@ -45,9 +46,11 @@ router.post("/", async (req, res) => {
 });
 
 //getOrders
-router.get("/", async (req, res) => {
+router.get("/", isValidUser, async (req, res) => {
   try {
-    const orders = await getOrders();
+    const email = req.user.email;
+    const role = req.user.role;
+    const orders = await getOrders(email, role);
     res.status(200).send(orders);
   } catch (error) {
     res.status(400).send({
@@ -57,7 +60,7 @@ router.get("/", async (req, res) => {
 });
 
 // getOrder
-router.get("/:id", async (req, res) => {
+router.get("/:id", isValidUser, async (req, res) => {
   try {
     const id = req.params.id;
     const order = await getOrder(id);
@@ -72,7 +75,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // updateOrder
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdmin, async (req, res) => {
   try {
     const id = req.params.id;
     const { status } = req.body;
@@ -86,7 +89,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // deleteOrder
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdmin, async (req, res) => {
   try {
     const id = req.params.id;
     await deleteOrder(id);

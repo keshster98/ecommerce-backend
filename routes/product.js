@@ -2,6 +2,7 @@
 const express = require("express");
 // Import mongoose
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 // Create a router for product
 const router = express.Router();
 // Load the product model
@@ -14,6 +15,7 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/product");
+const { isAdmin } = require("../middleware/auth");
 
 /* 
   Create the CRUD routes:
@@ -84,7 +86,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // 1
-router.post("/", async (req, res) => {
+router.post("/", isAdmin, async (req, res) => {
   try {
     // Retrieve the data from req.body
     const name = req.body.name;
@@ -109,7 +111,7 @@ router.post("/", async (req, res) => {
 });
 
 // 4
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdmin, async (req, res) => {
   try {
     // Retrieve id from URL
     const id = req.params.id;
@@ -142,7 +144,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // 5
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdmin, async (req, res) => {
   try {
     // Retrieve the id from the URL
     const id = req.params.id;
@@ -165,7 +167,7 @@ router.delete("/:id", async (req, res) => {
     // Trigger the deleteProduct function
     await deleteProduct(id);
     res.status(200).send({
-      message: `Alert: Movie with the provided id #${id} has been deleted`,
+      message: `Alert: Product with the provided id #${id} has been deleted`,
     });
   } catch (error) {
     // If there is an error, return the error code
