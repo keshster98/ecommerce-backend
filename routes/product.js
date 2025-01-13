@@ -93,6 +93,7 @@ router.post("/", isAdmin, async (req, res) => {
     const description = req.body.description;
     const price = req.body.price;
     const category = req.body.category;
+    const image = req.body.image;
     // Check for errors
     if (!name || !price || !category) {
       return res.status(400).send({
@@ -100,7 +101,13 @@ router.post("/", isAdmin, async (req, res) => {
       });
     }
     // If no errors, pass in all the data to addNewProduct function from controller
-    const newProduct = await addNewProduct(name, description, price, category);
+    const newProduct = await addNewProduct(
+      name,
+      description,
+      price,
+      category,
+      image
+    );
     res.status(200).send(newProduct);
   } catch (error) {
     // If there is an error, return the error code
@@ -120,6 +127,7 @@ router.put("/:id", isAdmin, async (req, res) => {
     const description = req.body.description;
     const price = req.body.price;
     const category = req.body.category;
+    const image = req.body.image;
     // Check for errors
     if (!name || !price || !category) {
       return res.status(400).send({
@@ -132,7 +140,8 @@ router.put("/:id", isAdmin, async (req, res) => {
       name,
       description,
       price,
-      category
+      category,
+      image
     );
     res.status(200).send(updatedProduct);
   } catch (error) {

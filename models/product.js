@@ -14,9 +14,13 @@ const productSchema = new Schema({
     type: Number,
     required: true,
   },
+  // Linkage between the product and categories (Similar to SQL Foreign Key)
   category: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+  },
+  image: {
     type: String,
-    required: true,
   },
 });
 

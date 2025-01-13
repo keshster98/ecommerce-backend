@@ -5,13 +5,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 // Import cors
 const cors = require("cors");
-
 // Create the express app
 const app = express();
-
 // Middleware to handle JSON request
 app.use(express.json());
-
 // Setup cors policy
 app.use(cors());
 
@@ -40,12 +37,18 @@ const categoryRouter = require("./routes/category");
 const orderRouter = require("./routes/order");
 const paymentRouter = require("./routes/payment");
 const authRouter = require("./routes/user");
+const imageRouter = require("./routes/image");
+
+// Set a folder as a static path (only works with files, not data)
+app.use("/uploads", express.static("uploads"));
+
 // Apply the routes
 app.use("/products", productRouter);
 app.use("/categories", categoryRouter);
 app.use("/orders", orderRouter);
 app.use("/payment", paymentRouter);
 app.use("/auth", authRouter);
+app.use("/image", imageRouter);
 
 // Start the server (Always the last line of code in server.js)
 app.listen(5555, () => {
