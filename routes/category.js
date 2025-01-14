@@ -13,6 +13,8 @@ const {
   deleteCategory,
 } = require("../controllers/category");
 
+const { isAdmin } = require("../middleware/auth");
+
 // get all categories
 router.get("/", async (req, res) => {
   try {
@@ -46,7 +48,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // add new category
-router.post("/", async (req, res) => {
+router.post("/", isAdmin, async (req, res) => {
   // Add back isAdmin between / and async and also for update and delete
   try {
     const name = req.body.name;
@@ -66,7 +68,7 @@ router.post("/", async (req, res) => {
 });
 
 // update category
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdmin, async (req, res) => {
   try {
     // Retrieve id from URL
     const id = req.params.id;
@@ -83,7 +85,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete category
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdmin, async (req, res) => {
   try {
     // Retrieve the id from the URL
     const id = req.params.id;
@@ -102,7 +104,7 @@ router.delete("/:id", async (req, res) => {
       });
     }
     // Trigger the deletecategory function
-    const status = await deleteCategory(id);
+    await deleteCategory(id);
     res.status(200).send({
       message: `Alert: Category with the provided id #${id} has been deleted`,
     });
