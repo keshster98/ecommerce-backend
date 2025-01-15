@@ -1,10 +1,10 @@
-/* Create/Use database */
+// /* Create/Use database */
 // use("ecommerce");
 
-/* Create collection */
-// db.createCollection("products");
+// /* Create collection */
+// db.createCollection("categories");
 
-/* Add products to database */
+// /* Add products to database */
 // db.products.insertMany([
 //   {
 //     name: "PlayStation 5",
