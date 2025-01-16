@@ -14,7 +14,7 @@ app.use(cors());
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost:27017/ecommerce")
+  .connect(process.env.MONGODB_URL + "/ecommerce")
   .then(() => {
     // If MongoDB is successfully connected
     console.log(
@@ -27,7 +27,7 @@ mongoose
   });
 
 // Root route
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Welcome to the ecommerce website!");
 });
 
@@ -40,15 +40,15 @@ const authRouter = require("./routes/user");
 const imageRouter = require("./routes/image");
 
 // Set a folder as a static path (only works with files, not data)
-app.use("/uploads", express.static("uploads"));
+app.use("/api/uploads", express.static("uploads"));
 
 // Apply the routes
-app.use("/products", productRouter);
-app.use("/categories", categoryRouter);
-app.use("/orders", orderRouter);
-app.use("/payment", paymentRouter);
-app.use("/auth", authRouter);
-app.use("/image", imageRouter);
+app.use("/api/products", productRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/payment", paymentRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/image", imageRouter);
 
 // Start the server (Always the last line of code in server.js)
 app.listen(5555, () => {
